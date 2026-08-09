@@ -1,0 +1,602 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aariz Ahmad</title>
+<meta name="description" content="Aariz Ahmad — things I make, study, and think about.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #071a14;
+    --line: #17392b;
+    --text: #e8ece9;
+    --muted: #7d9488;
+    --green: #0f9d63;
+    --blue: #4f8fb0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    min-height: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  ::selection {
+    background: var(--green);
+    color: #061309;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  /* the background */
+  .background {
+    position: fixed;
+    inset: -80px;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: .85;
+  }
+
+  .shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity .7s ease;
+    transform: scale(1.02);
+  }
+
+  .shape.active {
+    opacity: 1;
+  }
+
+  .shape-pattern {
+    transform-origin: center;
+    animation: float 70s linear infinite;
+  }
+
+  .shape:nth-child(2) .shape-pattern {
+    animation-duration: 90s;
+    animation-direction: reverse;
+  }
+
+  .shape:nth-child(3) .shape-pattern {
+    animation-duration: 75s;
+  }
+
+  .shape:nth-child(4) .shape-pattern {
+    animation-duration: 100s;
+    animation-direction: reverse;
+  }
+
+  @keyframes float {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(70px, 45px, 0);
+    }
+  }
+
+  .background-glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse 70% 55% at 50% 0%,
+        rgba(15, 157, 99, .11),
+        transparent 65%
+      );
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: min(560px, calc(100% - 44px));
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 64px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  header h1 {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin-bottom: 8px;
+  }
+
+  .tagline {
+    max-width: 46ch;
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tab {
+    position: relative;
+    margin-right: 24px;
+    padding: 8px 0 12px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color .15s ease;
+  }
+
+  .tab::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--green);
+    opacity: 0;
+    transform: scaleX(.5);
+    transition: .2s ease;
+  }
+
+  .tab:hover,
+  .tab.active {
+    color: var(--text);
+  }
+
+  .tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .panel {
+    animation: panel-in .25s ease;
+  }
+
+  .panel[hidden] {
+    display: none;
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .panel p {
+    color: var(--text);
+  }
+
+  .muted {
+    color: var(--muted) !important;
+  }
+
+  .intro-list {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+  }
+
+  .intro-list div {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .intro-list .number {
+    min-width: 24px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+  }
+
+  .item {
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .item:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .item-title {
+    margin-bottom: 4px;
+    color: var(--text);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+  }
+
+  .item p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .contact {
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 10px;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-size: 14px;
+  }
+
+  .contact-row .key {
+    min-width: 68px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+  }
+
+  .contact-row .value {
+    color: var(--text);
+    transition: color .15s ease;
+  }
+
+  a.value:hover,
+  button.value:hover {
+    color: var(--green);
+  }
+
+  button.value {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .copied {
+    display: inline-block;
+    margin-left: 8px;
+    color: var(--green);
+    font-size: 11px;
+    opacity: 0;
+    transform: translateY(2px);
+    transition: .15s ease;
+  }
+
+  .copied.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shape-pattern {
+      animation: none;
+    }
+
+    .panel {
+      animation: none;
+    }
+
+    .shape {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .page {
+      padding: 48px 0;
+    }
+
+    .tab {
+      margin-right: 18px;
+    }
+
+    .contact-row {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="background">
+
+  <!-- triangles -->
+  <svg class="shape active" data-shape="about" viewBox="0 0 200 200" preserveAspectRatio="none">
+    <defs>
+      <pattern id="triangles" width="92" height="92" patternUnits="userSpaceOnUse">
+        <path
+          d="M46 0 L92 92 L0 92 Z
+             M46 0 L0 0 L92 92
+             M46 92 L0 0"
+          fill="none"
+          stroke="rgba(15,157,99,.10)"
+          stroke-width="1"
+        />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#triangles)" class="shape-pattern"/>
+  </svg>
+
+  <!-- octagons -->
+  <svg class="shape" data-shape="personal" viewBox="0 0 200 200" preserveAspectRatio="none">
+    <defs>
+      <pattern id="octagons" width="92" height="92" patternUnits="userSpaceOnUse">
+        <polygon
+          points="27,4 65,4 88,27 88,65 65,88 27,88 4,65 4,27"
+          fill="none"
+          stroke="rgba(15,157,99,.11)"
+          stroke-width="1"
+        />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#octagons)" class="shape-pattern"/>
+  </svg>
+
+  <!-- diamonds -->
+  <svg class="shape" data-shape="projects" viewBox="0 0 200 200" preserveAspectRatio="none">
+    <defs>
+      <pattern id="diamonds" width="92" height="92" patternUnits="userSpaceOnUse">
+        <path
+          d="M46 0 L92 46 L46 92 L0 46 Z"
+          fill="none"
+          stroke="rgba(79,143,176,.11)"
+          stroke-width="1"
+        />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#diamonds)" class="shape-pattern"/>
+  </svg>
+
+  <!-- pentagons -->
+  <svg class="shape" data-shape="cv" viewBox="0 0 200 200" preserveAspectRatio="none">
+    <defs>
+      <pattern id="pentagons" width="110" height="105" patternUnits="userSpaceOnUse">
+        <polygon
+          points="55,6 103,40 85,98 25,98 7,40"
+          fill="none"
+          stroke="rgba(15,157,99,.10)"
+          stroke-width="1"
+        />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#pentagons)" class="shape-pattern"/>
+  </svg>
+
+  <div class="background-glow"></div>
+
+</div>
+
+
+<div class="page">
+
+  <header>
+    <h1>Aariz Ahmad</h1>
+
+    <p class="tagline">
+      I like figuring out how complicated things come from simpler things.
+    </p>
+  </header>
+
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-tab="about" type="button">About</button>
+    <button class="tab" data-tab="personal" type="button">Personal</button>
+    <button class="tab" data-tab="projects" type="button">Projects</button>
+    <button class="tab" data-tab="cv" type="button">CV</button>
+  </nav>
+
+
+  <main>
+
+    <section class="panel" id="panel-about">
+      <p>
+        I'm a high school student in Ontario interested in mathematics,
+        computer science, physics, and artificial intelligence. I like
+        building things, learning how systems work, and following
+        interesting questions wherever they lead. Right now that means
+        software development, machine learning, game development, and
+        computational science.
+      </p>
+
+      <p style="margin-top: 16px; color: var(--muted);">
+        This site is a running record of the things I make, the things I
+        study, and the ideas I'm currently chasing.
+      </p>
+    </section>
+
+
+    <section class="panel" id="panel-personal" hidden>
+
+      <div class="item">
+        <div class="item-title">Writing</div>
+        <p>
+          Stories, essays, worldbuilding, and whatever else I end up
+          writing.
+        </p>
+      </div>
+
+      <div class="item">
+        <div class="item-title">D&D</div>
+        <p>
+          Campaigns, settings, mechanics, and other things I've built
+          for my games.
+        </p>
+      </div>
+
+      <div class="item">
+        <div class="item-title">Game Development</div>
+        <p>
+          Games and smaller experiments that let me mess around with
+          systems, mechanics, and ideas.
+        </p>
+      </div>
+
+      <div class="item">
+        <div class="item-title">Other</div>
+        <p>
+          Small projects and things that don't really belong anywhere
+          else.
+        </p>
+      </div>
+
+    </section>
+
+
+    <section class="panel" id="panel-projects" hidden>
+
+      <div class="item">
+        <div class="item-title">More soon.</div>
+        <p>
+          Projects, experiments, and research will live here as I finish
+          things worth showing.
+        </p>
+      </div>
+
+    </section>
+
+
+    <section class="panel" id="panel-cv" hidden>
+
+      <div class="item">
+        <div class="item-title">Coming soon.</div>
+        <p>
+          Education, experience, research, publications, awards, and
+          other things that belong on the formal record.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <div class="contact">
+
+    <div class="contact-row">
+      <span class="key">Email</span>
+
+      <button class="value mono" id="copyBtn" type="button">
+        aiaphilly_09@outlook.com
+        <span class="copied" id="copied">Copied!</span>
+      </button>
+    </div>
+
+    <div class="contact-row">
+      <span class="key">GitHub</span>
+
+      <a
+        class="value mono"
+        href="https://github.com/Aariz-Ahmad"
+        target="_blank"
+        rel="noopener"
+      >
+        github.com/Aariz-Ahmad
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  const panels = document.querySelectorAll(".panel");
+  const shapes = document.querySelectorAll(".shape");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const name = tab.dataset.tab;
+
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      panels.forEach(panel => {
+        panel.hidden = panel.id !== "panel-" + name;
+      });
+
+      shapes.forEach(shape => {
+        shape.classList.toggle("active", shape.dataset.shape === name);
+      });
+    });
+  });
+
+
+  const copyBtn = document.getElementById("copyBtn");
+  const copied = document.getElementById("copied");
+
+  copyBtn.addEventListener("click", () => {
+    const email = "aiaphilly_09@outlook.com";
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(email);
+    } else {
+      const input = document.createElement("textarea");
+      input.value = email;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      input.remove();
+    }
+
+    copied.classList.add("show");
+
+    setTimeout(() => {
+      copied.classList.remove("show");
+    }, 1500);
+  });
+</script>
+
+</body>
+</html>
+```

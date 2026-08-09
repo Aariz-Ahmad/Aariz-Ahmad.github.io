@@ -5,10 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>Aariz Ahmad</title>
-  <meta name="description" content="Aariz Ahmad — student interested in mathematics, computer science, physics, and artificial intelligence.">
+  <meta
+    name="description"
+    content="Aariz Ahmad — student interested in mathematics, computer science, physics, and artificial intelligence."
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500&display=swap"
     rel="stylesheet"
@@ -77,6 +81,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
+
       background: radial-gradient(
         ellipse 70% 50% at 50% 0%,
         rgba(15, 157, 99, 0.10),
@@ -137,6 +142,7 @@
       max-width: 46ch;
     }
 
+
     /* tabs */
 
     .tabs {
@@ -174,7 +180,9 @@
       opacity: 0;
       transform: scaleX(0.6);
 
-      transition: opacity 0.15s ease, transform 0.15s ease;
+      transition:
+        opacity 0.15s ease,
+        transform 0.15s ease;
     }
 
     .tab:hover {
@@ -190,6 +198,9 @@
       transform: scaleX(1);
     }
 
+
+    /* page content */
+
     .panel p {
       color: var(--text);
     }
@@ -201,6 +212,7 @@
     .panel[hidden] {
       display: none;
     }
+
 
     /* contact */
 
@@ -277,6 +289,7 @@
         transform 0.08s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+
     @media (prefers-reduced-motion: reduce) {
       body::before {
         animation: none;
@@ -289,12 +302,21 @@
         gap: 24px;
       }
 
+      .tabs {
+        overflow-x: auto;
+      }
+
+      .tab {
+        flex-shrink: 0;
+      }
+
       .contact-row {
         flex-wrap: wrap;
       }
     }
   </style>
 </head>
+
 
 <body>
 
@@ -310,44 +332,74 @@
 
 
     <nav class="tabs">
+
       <button class="tab active" data-tab="about" type="button">
         About
+      </button>
+
+      <button class="tab" data-tab="personal" type="button">
+        Personal
       </button>
 
       <button class="tab" data-tab="projects" type="button">
         Projects
       </button>
 
-      <button class="tab" data-tab="resume" type="button">
-        Resume
+      <button class="tab" data-tab="cv" type="button">
+        CV
       </button>
+
     </nav>
 
 
+    <!-- ABOUT -->
+
     <div class="panel" id="panel-about">
+
       <p>
         I'm a high school student in Ontario interested in mathematics,
         computer science, physics, and artificial intelligence. I like
         building things, learning how systems work, and following interesting
-        questions wherever they lead- right now that means software
+        questions wherever they lead — right now that means software
         development, machine learning, game development, and computational
         science. This site is a running record of the things I make and the
         ideas I'm currently chasing.
       </p>
+
     </div>
 
+
+    <!-- PERSONAL -->
+
+    <div class="panel" id="panel-personal" hidden>
+
+      <p class="muted">
+        A more personal collection of things I'm working on, writing about,
+        or just interested in.
+      </p>
+
+    </div>
+
+
+    <!-- PROJECTS -->
 
     <div class="panel" id="panel-projects" hidden>
+
       <p class="muted">
-        More soon — this section will grow as I finish things worth showing.
+        Technical projects, research, experiments, and other things I've built.
       </p>
+
     </div>
 
 
-    <div class="panel" id="panel-resume" hidden>
+    <!-- CV -->
+
+    <div class="panel" id="panel-cv" hidden>
+
       <p class="muted">
-        Coming soon.
+        Education, experience, achievements, and other academic information.
       </p>
+
     </div>
 
 
@@ -378,20 +430,6 @@
         </a>
       </div>
 
-
-      <div class="contact-row">
-        <span class="k mono">LinkedIn</span>
-
-        <a
-          class="v mono"
-          href="https://linkedin.com/"
-          target="_blank"
-          rel="noopener"
-        >
-          linkedin.com
-        </a>
-      </div>
-
     </div>
 
   </div>
@@ -405,8 +443,9 @@
 
     const panels = {
       about: document.getElementById('panel-about'),
+      personal: document.getElementById('panel-personal'),
       projects: document.getElementById('panel-projects'),
-      resume: document.getElementById('panel-resume')
+      cv: document.getElementById('panel-cv')
     };
 
     tabs.forEach(tab => {
